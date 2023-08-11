@@ -28,3 +28,13 @@ const personList = [
     }
 
 ];
+console.log(personList)
+
+const creatUser = () => {
+  personList.push(user);  
+};
+
+const updateUser = () => {
+    const userIndex = personList.findIndex((item) => item.id === id);
+    personList[userIndex] = user
+};
