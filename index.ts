@@ -5,7 +5,7 @@ type DailyText = {
 };
 
 const titleInput = document.querySelector<HTMLInputElement>("#title");
-const submitButton = document.querySelector("#submitButton");
+const submitButton = document.querySelector<HTMLButtonElement>("#submitButton");
  
 submitButton?.addEventListener("click", () =>{
     console.log(titleInput?.value);
