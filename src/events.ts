@@ -5,20 +5,33 @@ import {contactsListDrawer,
         DeviceStorageInput,
         contactsListElement,
         closeDrawerButton} from'./importer.js';
-        import{contactProps} from "./type";
+        import{ContactInfoType, contactProps} from "./type";
         import{contactsList} from "./state.js";
+        import { createListItem, validateFields } from './function.js';
 
 export const showContactsButtonHandeler =() =>{
     contactsListDrawer?.classList.remove("hidden");
-}
+};
 
 
 export const closeDrawerButtonHandeler =() =>{
     closeDrawerButton?.classList.add("hidden");
-}
+};
 
-export const handleCreateContact =() =>{
-   
+const validateCreateContact = (contactInfo: ContactInfoType) =>{
+    if (!validateFields(contactInfo.contactName, contactInfo.phoneNumber + "")){
+        alert("fill all fields!");
+        throw Error ("fill all fields!");
+    }
+};
+
+export const handleCreateContact = () =>{
+
+   validateCreateContact({
+    contactName:contactNameInput!.value,
+    phoneNumber:phoneNumberInput!.value,
+   });
+
     const newContact:contactProps={
         id:crypto.randomUUID(),
         contactName:contactNameInput?.value ??'',
@@ -28,15 +41,10 @@ export const handleCreateContact =() =>{
     };
     contactsList.push(newContact);
 
-    const listItem = document.createElement("li");
-    listItem.className ="py-4 px-1";
-    const contactNameElement = document.createElement("h2");
-    contactNameElement.className = "text-slate-700";
-    contactNameElement.innerText = newContact.contactName;
-    const contactPhoneNumberElement = document.createElement("p");
-    contactPhoneNumberElement.className = "text-slate-700";
-    contactPhoneNumberElement.innerText = newContact.phoneNumber.toString();
-    listItem.appendChild(contactNameElement);
-    listItem.appendChild(contactPhoneNumberElement);
+    const listItem = createListItem({
+        contactName:newContact.contactName,
+        phoneNumber:newContact.phoneNumber,
+    });
+
     contactsListElement?.appendChild(listItem);
 }
